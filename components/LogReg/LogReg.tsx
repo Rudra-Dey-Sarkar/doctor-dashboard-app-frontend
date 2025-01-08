@@ -4,7 +4,7 @@ import Login from '../Login/Login'
 import Register from '../Register/Regsiter'
 
 function LogReg() {
-    const [exist, setExist] = useState<Boolean>(true);
+    const [exist, setExist] = useState<boolean>(true);
 
     function LogRegControl() {
         if (exist === true) {

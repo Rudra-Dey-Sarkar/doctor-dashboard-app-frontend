@@ -4,12 +4,12 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
 type UserDataType = {
-    name: String,
-    specialization: String,
-    gender: String,
-    email: String,
-    password: String,
-    status: String
+    name: string,
+    specialization: string,
+    gender: string,
+    email: string,
+    password: string,
+    status: string
 }
 type RouteControlType = () => void;
 
