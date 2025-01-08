@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
+
 type UserDataType = {
     name: string,
     specialization: string,
