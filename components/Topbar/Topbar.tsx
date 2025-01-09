@@ -4,8 +4,8 @@ import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { GlobalContext } from '../../GlobalContext/GlobalContext';
 
-
 function Topbar() {
+    
     const { present, setPresent }: any = useContext(GlobalContext);
     const [top, setTop] = useState<boolean>(false);
 

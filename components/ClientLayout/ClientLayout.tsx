@@ -18,6 +18,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
         } else {
             setUser(false);
         }
+        
 
     }, [present]);
     return (
@@ -25,7 +26,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
            {user===true && <Topbar />} 
             <div className="flex w-full">
             {user===true && <Sidebar />} 
-                <div className="w-full">
+                <div className="w-full sm:pl-0 pl-[36px]">
                     <Toaster />
                     {children}
                 </div>
