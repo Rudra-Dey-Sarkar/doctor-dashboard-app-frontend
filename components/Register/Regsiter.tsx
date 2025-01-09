@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { useForm } from 'react-hook-form'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { GlobalContext } from '../../GlobalContext/GlobalContext';
 
 type UserDataType = {
     name: string,
@@ -14,7 +15,7 @@ type UserDataType = {
 }
 type RouteControlType = () => void;
 
-async function ControlRegister(data: UserDataType, RouteControl: RouteControlType) {
+async function ControlRegister(data: UserDataType, RouteControl: RouteControlType, setPresent:any) {
     try {
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_KEY}/register`, {
@@ -31,6 +32,7 @@ async function ControlRegister(data: UserDataType, RouteControl: RouteControlTyp
         const datas = JSON.parse(rawResponse);
 
         if (res.ok) {
+            setPresent(true);
             setCookie("user", JSON.stringify(datas[0]));
             toast.success("Registration successful");
             RouteControl();
@@ -45,6 +47,7 @@ async function ControlRegister(data: UserDataType, RouteControl: RouteControlTyp
 }
 
 function Regsiter() {
+    const {present, setPresent}:any = useContext(GlobalContext);
     const router = useRouter();
     const RouteControl = () => {
         router.push("/dashboard");
@@ -65,7 +68,7 @@ function Regsiter() {
     return (
 
         <form
-            onSubmit={handleSubmit((data) => ControlRegister(data, RouteControl))}
+            onSubmit={handleSubmit((data) => ControlRegister(data, RouteControl, setPresent))}
             className="grid w-fit border-2 border-gray-600 p-2 mb-5 rounded-[5px] gap-y-1"
         >
             <label htmlFor="name">Enter Your Name :-</label>

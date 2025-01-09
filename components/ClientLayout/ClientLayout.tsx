@@ -1,15 +1,30 @@
 "use client"
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Topbar from '../Topbar/Topbar'
 import Sidebar from '../Sidebar/Sidebar'
 import { Toaster } from 'react-hot-toast'
+import { getCookie } from 'cookies-next';
+import { GlobalContext } from '../../GlobalContext/GlobalContext'
+
 
 function ClientLayout({ children }: { children: React.ReactNode }) {
+    const [user, setUser] = useState<boolean>(false);
+    const {present, setPresent}:any = useContext(GlobalContext);
+
+    useEffect(() => {
+        const cookie = getCookie("user");
+        if (cookie !== undefined || present===true) {
+            setUser(true);
+        } else {
+            setUser(false);
+        }
+
+    }, [present]);
     return (
         <div>
-            <Topbar />
+           {user===true && <Topbar />} 
             <div className="flex w-full">
-                <Sidebar />
+            {user===true && <Sidebar />} 
                 <div className="w-full">
                     <Toaster />
                     {children}
