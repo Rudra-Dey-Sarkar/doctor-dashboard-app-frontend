@@ -18,7 +18,7 @@ function Sidebar() {
 
 
   return (
-    <div className='absolute sm:relative bg-white border-r-[1px] w-fit h-[100vh] border-gray-600 pr-2 py-2'>
+    <div className='absolute sm:relative bg-white z-10 border-r-[1px] w-fit h-[100vh] border-gray-600 pr-2 py-2'>
 
       <div className='flex justify-end mb-5'>
         <div
