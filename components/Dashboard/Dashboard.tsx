@@ -1,8 +1,12 @@
+"use client"
 import React from 'react'
+
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <div className='w-full h-[100vh] flex justify-center items-center'>
+      
+    </div>
   )
 }
 

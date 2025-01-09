@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 type UserDataType = {
     name: string,
@@ -25,24 +26,29 @@ async function ControlRegister(data: UserDataType, RouteControl: RouteControlTyp
         });
 
         
+
+        const rawResponse = await res.text();
+        const datas = JSON.parse(rawResponse);
+
         if (res.ok) {
-            const data = await res.json();
-            setCookie("user", JSON.stringify(data));
+            setCookie("user", JSON.stringify(datas[0]));
+            toast.success("Registration successful");
             RouteControl();
         } else {
-            const errorData = await res.json();
-            console.log("Error :-", errorData?.message)
+            toast.error("Registration failed");
         }
+
     } catch (error) {
-        console.log("Data could not post due to:-",error)
+        toast.error("Registration failed");
+        console.log("Data could not post due to:-", error)
     }
 }
 
 function Regsiter() {
-      const router = useRouter();
-      const RouteControl= ()=>{
-      router.push("/dashboard");
-      }
+    const router = useRouter();
+    const RouteControl = () => {
+        router.push("/dashboard");
+    }
     const form = useForm<UserDataType>({
         defaultValues: {
             name: "",

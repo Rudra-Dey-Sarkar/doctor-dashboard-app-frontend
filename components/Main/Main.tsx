@@ -20,7 +20,7 @@ function Main() {
         const cookie = getCookie("user");
         if (cookie !== undefined) {
             router.push("/dashboard");
-        }else{
+        } else {
             if (typeof cookie === 'string') {
                 try {
                     setUser(JSON.parse(cookie) as UserDataType);
@@ -32,8 +32,15 @@ function Main() {
 
     }, []);
     return (
-        <div className=' w-full h-[100vh] flex justify-center items-center'>
-            {user === undefined && <button onClick={()=>router.push("/log-reg")}>Login/Register</button>}
+        <div className=' w-full h-[100vh] grid justify-center items-center'>
+            {user === undefined &&
+                <div className='grid justify-center items-center gap-y-5'>            
+                    <p>Please Login/Register To Access The Dashboard</p>
+                    <button 
+                    onClick={() => router.push("/log-reg")}
+                    className='border-2 border-gray-600 w-fit m-auto py-1 px-4 rounded-[5px]'
+                    >Login/Register</button>
+                </div>}
         </div>
     )
 }
