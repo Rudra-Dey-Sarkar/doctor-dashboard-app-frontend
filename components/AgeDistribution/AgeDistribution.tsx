@@ -8,7 +8,7 @@ type AgeDistributionType = {
 
 function AgeDistribution({ ageData }: { ageData: AgeDistributionType }) {
   if (!ageData || Object.keys(ageData).length === 0) {
-    return <div>Loading...</div>; // Prevent rendering mismatched content
+    return <div>Loading...</div>;
   }
 
   const chartData = Object.keys(ageData).map((key) => ({
