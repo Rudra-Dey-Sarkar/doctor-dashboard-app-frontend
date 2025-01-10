@@ -14,9 +14,10 @@ const eslintConfig = [
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
-      "@typescript-eslint/no-unused-vars": ["warn"], // Change unused variables to warnings
-      "react-hooks/exhaustive-deps": ["warn"],       // Change missing dependencies to warnings
-      "@typescript-eslint/no-explicit-any": ["off"], // Allow the use of 'any' type
+      "@typescript-eslint/no-unused-vars": ["warn"],
+      "react-hooks/exhaustive-deps": ["warn"],  
+      " @typescript-eslint/no-require-imports": ["warn"],    
+      "@typescript-eslint/no-explicit-any": ["off"], 
     },
   },
 ];
