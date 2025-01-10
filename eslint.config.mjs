@@ -15,9 +15,9 @@ const eslintConfig = [
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
       "@typescript-eslint/no-unused-vars": ["warn"],
-      "react-hooks/exhaustive-deps": ["warn"],  
-      " @typescript-eslint/no-require-imports": ["warn"],    
-      "@typescript-eslint/no-explicit-any": ["off"], 
+      "react-hooks/exhaustive-deps": ["warn"],
+      "@typescript-eslint/no-require-imports": ["warn"], // Fixed typo
+      "@typescript-eslint/no-explicit-any": ["off"],
     },
   },
 ];
