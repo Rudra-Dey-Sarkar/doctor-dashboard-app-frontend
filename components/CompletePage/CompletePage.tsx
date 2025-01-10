@@ -1,4 +1,4 @@
-import { useState, useEffect, JSX } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 
 // The SVGs are the same as in your original code
@@ -42,19 +42,61 @@ const STATUS_CONTENT_MAP: Record<PaymentStatus, { text: string; iconColor: strin
   }
 };
 
-export default function CompletePage() {
+type PaymentDataType = {
+  email: string,
+  amount: string,
+  id: string,
+  date: string,
+  status: string,
+}
+
+async function ControlAddPayment(
+  data: PaymentDataType,
+  AP: boolean,
+  setAP: React.Dispatch<React.SetStateAction<boolean>>
+) {
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_KEY}/add-payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      if (AP === false) {
+        setAP(true);
+      } else {
+        setAP(false);
+      }
+    } else {
+      console.log("Failed to add payment");
+    }
+  } catch (error) {
+    console.error("Data could not be posted due to:", error);
+  }
+}
+
+export default function CompletePage({ email, AP, setAP }: { email: string, AP: boolean, setAP: React.Dispatch<React.SetStateAction<boolean>> }) {
   const stripe = useStripe();
 
   const [status, setStatus] = useState<PaymentStatus>('default');
-  const [intentId, setIntentId] = useState<string | null>(null);
+  const [intentId, setIntentId] = useState<string>("");
   const date = new Date();
-  const formattedDate = `${
-    String(date.getMonth() + 1).padStart(2, '0')
-  }/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
-  const ammount = "100$"
-  console.log(formattedDate);
+  const formattedDate = `${String(date.getMonth() + 1).padStart(2, '0')
+    }/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  const amount = "100$"
 
-  
+  const data = {
+    email: email,
+    amount: amount,
+    id: "",
+    date: formattedDate,
+    status: "",
+  }
+
   useEffect(() => {
     if (!stripe) {
       return;
@@ -70,43 +112,46 @@ export default function CompletePage() {
       if (!paymentIntent) {
         return;
       }
-
       setStatus(paymentIntent.status as PaymentStatus);
       setIntentId(paymentIntent.id);
+      data.id = paymentIntent.id;
+      data.status = paymentIntent.status as PaymentStatus;
+      ControlAddPayment(data, AP, setAP,);
     });
   }, [stripe]);
+
 
   return (
     <div id="payment-status"
       className="boder-2 border-gray-600 w-full">
-        <div id="status-icon"
-          className={`bg-[${STATUS_CONTENT_MAP[status].iconColor}] p-2`}>
-          {STATUS_CONTENT_MAP[status].icon}
-        </div>
-        <h2 id="status-text"
-          className="text-[25px] font-bold">{STATUS_CONTENT_MAP[status].text}</h2>
-        {intentId && <div id="details-table">
-          <table>
-            <tbody>
-              <tr>
-                <td className="TableLabel"><strong>Amount :-</strong></td>
-                <td id="intent-status" className="TableContent">{ammount}</td>
-              </tr>
-              <tr>
-                <td className="TableLabel"><strong>ID :-</strong></td>
-                <td id="intent-id" className="TableContent">{intentId}</td>
-              </tr>
-              <tr>
-                <td className="TableLabel"><strong>Date :-</strong></td>
-                <td id="intent-status" className="TableContent">{formattedDate}</td>
-              </tr>
-              <tr>
-                <td className="TableLabel"><strong>Status :-</strong></td>
-                <td id="intent-status" className="TableContent">{status}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>}
+      <div id="status-icon"
+        className={`bg-[${STATUS_CONTENT_MAP[status].iconColor}] p-2`}>
+        {STATUS_CONTENT_MAP[status].icon}
+      </div>
+      <h2 id="status-text"
+        className="text-[25px] font-bold">{STATUS_CONTENT_MAP[status].text}</h2>
+      {intentId && <div id="details-table">
+        <table>
+          <tbody>
+            <tr>
+              <td className="TableLabel"><strong>Amount :-</strong></td>
+              <td id="intent-status" className="TableContent">{amount}</td>
+            </tr>
+            <tr>
+              <td className="TableLabel"><strong>ID :-</strong></td>
+              <td id="intent-id" className="TableContent">{intentId}</td>
+            </tr>
+            <tr>
+              <td className="TableLabel"><strong>Date :-</strong></td>
+              <td id="intent-status" className="TableContent">{formattedDate}</td>
+            </tr>
+            <tr>
+              <td className="TableLabel"><strong>Status :-</strong></td>
+              <td id="intent-status" className="TableContent">{status}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>}
     </div>
   );
 }
