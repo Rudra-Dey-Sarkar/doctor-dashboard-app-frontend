@@ -35,6 +35,7 @@ export default function CheckoutForm() {
       },
     });
 
+    
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
