@@ -154,7 +154,7 @@ export default function Page() {
                     </table>
                     :
                     <div>
-                        <p>No Payments data available</p>
+                        <p className="text-center">No Payments data available</p>
                     </div>}
             </div>
         </div>
