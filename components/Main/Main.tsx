@@ -34,8 +34,9 @@ function Main() {
     return (
         <div className=' w-full h-[100vh] grid justify-center items-center'>
             {user === undefined &&
-                <div className='grid justify-center items-center gap-y-5'>            
-                    <p>Please Login/Register To Access The Dashboard</p>
+                <div className='grid justify-center items-center gap-y-5'>   
+                    <p className='text-center font-bold text-[3rem]'>Welcome To Doctor Dashboard🩺</p>      
+                    <p className='text-center font-bold '>Please Login/Register To Access The Dashboard</p>
                     <button 
                     onClick={() => router.push("/log-reg")}
                     className='border-2 border-gray-600 w-fit m-auto py-1 px-4 rounded-[5px]'
