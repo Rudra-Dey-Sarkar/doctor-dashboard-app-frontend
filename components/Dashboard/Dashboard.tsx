@@ -4,6 +4,7 @@ import { GlobalContext } from '../../GlobalContext/GlobalContext';
 import { getCookie } from 'cookies-next';
 import AgeDistribution from '../AgeDistribution/AgeDistribution';
 import ProblemDistribution from '../ProblemDistribution/ProblemDistribution';
+import AgentCall from '../AgentCall/AgentCall';
 
 type PatientsDataType = [{
   doc_name: string,
@@ -91,6 +92,7 @@ function Dashboard() {
   }, [present]);
   return (
     <div className='w-full'>
+      <AgentCall />
       {patients.length === 0 ?
         <div>
           <p>No Patients Available</p>
