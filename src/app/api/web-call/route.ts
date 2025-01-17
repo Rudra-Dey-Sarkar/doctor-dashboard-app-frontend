@@ -8,11 +8,9 @@ const retellClient = new Retell({
 });
 
 // API Route
-export async function POST(req: NextRequest){
+export async function POST(req: NextRequest) {
     const data = await req.json();
-    const { con_num }:any = data;
-
-    console.log("The Number Is :-",con_num);
+    
     try {
         // Make the web call
         const response = await retellClient.call.createWebCall({
@@ -20,13 +18,18 @@ export async function POST(req: NextRequest){
             metadata: {
                 reason: 'test Call',
             },
+            retell_llm_dynamic_variables: {
+                "user_name": data?.user_name,
+                "role": data?.role,
+                "description": data?.description
+            }
         });
         // Respond with success
         console.log('Call initiated successfully:', response);
 
-        return NextResponse.json({ message: 'Call initiated successfully', access_token:response?.access_token});
+        return NextResponse.json({ message: 'Call initiated successfully', access_token: response?.access_token });
     } catch (error) {
         console.error('Error making call:', error);
-        return NextResponse.json({message: 'Error making call'});
+        return NextResponse.json({ message: 'Error making call' });
     }
 }

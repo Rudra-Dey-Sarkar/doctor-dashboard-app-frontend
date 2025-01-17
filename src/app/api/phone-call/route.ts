@@ -10,16 +10,20 @@ const retellClient = new Retell({
 // Function to Make a Phone Call
 export async function POST(req: NextRequest){
     const data = await req.json();
-    const { con_num }:any = data;
-    
+
     try {
         // Send a call request
         const response = await retellClient.call.createPhoneCall({
             from_number: process.env.FROM_NUMBER || "", // Caller (registered number)
-            to_number: con_num,     // Recipient (test/registered number)
+            to_number: data?.con_num,     // Recipient (test/registered number)
             metadata: {
                 reason: 'test Call',
             },
+            retell_llm_dynamic_variables:{
+                "user_name": data?.user_name,
+                "role": data?.role,
+                "description": data?.description
+              }
         });
 
         console.log('Call initiated successfully:', response);
